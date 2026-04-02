@@ -45,7 +45,7 @@ layers:
   - '&td_shift'
   - $$mdi:apple-keyboard-option$$
   - LGUI
-  - Fn
+  - {t: '$$mdi:keyboard-space$$', h: Fn}
   - {t: '$$mdi:keyboard-space$$', h: Fn}
   - {t: '$$mdi:keyboard-return$$', h: NUMBER}
   - SYMBOL
