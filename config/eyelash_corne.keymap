@@ -78,15 +78,19 @@
             key-positions = <23 24>;
             timeout-ms = <30>;
         };
-    };
 
-    // Callum mod layer: activated when both mo1 (layer 1) and mo2 (layer 2) are held
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
+        // Backspace: E + I simultaneously (right home row, middle + ring in Colemak-DH)
+        combo_bspc {
+            bindings = <&kp BSPC>;
+            key-positions = <24 25>;
+            timeout-ms = <30>;
+        };
 
-        callum_mods {
-            if-layers = <1 2>;
-            then-layer = <4>;
+        // Backtick: Tab + Q simultaneously (top-left corner of left half)
+        combo_grave {
+            bindings = <&kp GRAVE>;
+            key-positions = <0 1>;
+            timeout-ms = <30>;
         };
     };
 
@@ -96,57 +100,60 @@
         // ==========================================
         // LAYER 0: COLEMAK-DH (base)
         // ==========================================
-        // Left outer:  Tab, Esc, Super
-        // Right outer: Del, [Quote on home], Ctrl
-        // Thumbs:      Bspc, Num, Space/Nav | Enter/Nav, Sym, Shift
+        // Left column:  Tab (top), Ctrl (home), Shift (bottom)
+        // Right column: Bspc (top), [Quote home], Shift/CapsWord (bottom)
+        // Left thumbs:  Alt (outer), Cmd/Super (middle), Nav/mo3 (inner)
+        // Right thumbs: Space/Nav (inner), Enter/Num (middle), Sym/mo2 (outer)
+        // Combos: N+E=Esc, E+I=Bspc, Tab+Q=Backtick
         default_layer {
             display-name = "COLEMAK-DH";
             bindings = <
-&kp TAB    &kp Q  &kp W  &kp F       &kp P  &kp B                               &kp UP                &kp J        &kp L  &kp U      &kp Y    &kp SEMI  &kp DEL
-&kp ESC    &kp A  &kp R  &kp S       &kp T  &kp G                     &kp LEFT  &kp ENTER  &kp RIGHT  &kp M        &kp N  &kp E      &kp I    &kp O     &kp SQT
-&kp LGUI   &kp Z  &kp X  &kp C       &kp D  &kp V        &kp SPACE              &kp DOWN              &kp K        &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp RCTRL
-                         &kp BSPC    &mo 1  &lt 3 SPACE                                               &lt 3 ENTER  &mo 2  &td_shift
+&kp TAB     &kp Q  &kp W  &kp F      &kp P     &kp B                               &kp UP                &kp J        &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
+&kp LCTRL   &kp A  &kp R  &kp S      &kp T     &kp G                     &kp LEFT  &kp ENTER  &kp RIGHT  &kp M        &kp N  &kp E      &kp I    &kp O     &kp SQT
+&kp LSHFT   &kp Z  &kp X  &kp C      &kp D     &kp V        &kp SPACE              &kp DOWN              &kp K        &kp H  &kp COMMA  &kp DOT  &kp FSLH  &td_shift
+                           &kp LALT   &kp LGUI  &mo 3                                                     &lt 3 SPACE  &lt 1 ENTER  &mo 2
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
         };
 
         // ==========================================
-        // LAYER 1: NUMBER (hold left middle thumb)
+        // LAYER 1: NUMBER (hold right middle thumb / Enter)
         // ==========================================
-        // BT safety: BT_CLR_ALL moved to bottom-left (Z position)
-        // BT profiles on home row: R=BT0, S=BT1, T=BT2, G=BT3
+        // BT safety: BT_CLR_ALL on bottom-left (Z position)
+        // BT profiles: R=BT0, S=BT1, T=BT2, G=BT3
         lower_layer {
             display-name = "NUMBER";
             bindings = <
 &trans  &kp N1           &kp N2          &kp N3        &kp N4        &kp N5                                         &mmv MOVE_UP                     &kp N6           &kp N7           &kp N8           &kp N9           &kp N0    &kp BSPC
 &trans  &none            &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3                   &mmv MOVE_LEFT  &mkp LCLK       &mmv MOVE_RIGHT  &kp LEFT         &kp DOWN         &kp UP           &kp RIGHT        &kp HOME  &kp PG_UP
 &trans  &bt BT_CLR_ALL   &rgb_ug RGB_ON  &trans        &trans        &rgb_ug RGB_EFF  &kp C_MUTE                    &mmv MOVE_DOWN                   &rgb_ug RGB_EFR  &rgb_ug RGB_SPI  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp END   &kp PG_DN
-                                         &trans        &trans        &trans                                                                          &kp INS          &kp DEL          &trans
+                                         &trans        &trans        &trans                                                                          &kp INS          &trans           &kp DEL
             >;
 
             sensor-bindings = <&scroll_encoder>;
         };
 
         // ==========================================
-        // LAYER 2: SYMBOL (hold right middle thumb)
+        // LAYER 2: SYMBOL (hold right outer thumb)
         // ==========================================
+        // Top-left = backtick (instead of &trans)
         raise_layer {
             display-name = "SYMBOL";
             bindings = <
-&trans  &kp EXCL      &kp AT        &kp HASH   &kp DLLR   &kp PRCNT                            &mmv MOVE_UP                     &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
-&trans  &bt BT_CLR    &mkp LCLK     &mkp MCLK  &mkp RCLK  &mkp MB4             &mmv MOVE_LEFT  &mkp LCLK       &mmv MOVE_RIGHT  &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
-&trans  &out OUT_USB  &out OUT_BLE  &none      &none      &mkp MB5   &trans                    &mmv MOVE_DOWN                   &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
-                                    &trans     &trans     &kp SPACE                                                             &kp RET    &trans     &trans
+&kp GRAVE  &kp EXCL      &kp AT        &kp HASH   &kp DLLR   &kp PRCNT                            &mmv MOVE_UP                     &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp BSPC
+&trans     &bt BT_CLR    &mkp LCLK     &mkp MCLK  &mkp RCLK  &mkp MB4             &mmv MOVE_LEFT  &mkp LCLK       &mmv MOVE_RIGHT  &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT  &kp BSLH  &kp GRAVE
+&trans     &out OUT_USB  &out OUT_BLE  &none      &none      &mkp MB5   &trans                    &mmv MOVE_DOWN                   &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC  &kp PIPE  &kp TILDE
+                                       &trans     &trans     &trans                                                                &kp SPACE  &kp RET    &trans
             >;
 
             sensor-bindings = <&scroll_encoder>;
         };
 
         // ==========================================
-        // LAYER 3: Fn / Nav (hold Space or Enter)
+        // LAYER 3: Fn / Nav (hold left inner thumb or right inner thumb / Space)
         // ==========================================
-        // Added: Tmux prefix macro on left home row (R position)
+        // Tmux prefix macro on left home row (R position)
         layer_3 {
             display-name = "Fn";
             bindings = <
@@ -154,24 +161,6 @@
 &trans          &tmux_prefix    &mkp LCLK  &mkp MCLK    &mkp RCLK  &mkp MB4                &mmv MOVE_LEFT  &mkp LCLK       &mmv MOVE_RIGHT  &bootloader  &mkp LCLK  &mkp MCLK    &mkp RCLK   &kp PRINTSCREEN  &kp F12
 &trans          &sys_reset      &trans     &bootloader  &trans     &mkp MB5  &kp C_MUTE                    &mmv MOVE_DOWN                   &trans       &trans     &bootloader  &sys_reset  &kp SCROLLLOCK   &kp PAUSE_BREAK
                                            &trans       &trans     &trans                                                                   &trans       &trans     &trans
-            >;
-
-            sensor-bindings = <&scroll_encoder>;
-        };
-
-        // ==========================================
-        // LAYER 4: CALLUM MODS (hold mo1 + mo2 simultaneously)
-        // ==========================================
-        // Sticky modifiers on home row, mirrored on both hands.
-        // Usage: hold both layer thumbs, tap desired mod(s), release thumbs, tap target key.
-        // Example Ctrl+Shift+P: hold mo1+mo2, tap sCtrl, tap sShift, release, tap P.
-        callum_layer {
-            display-name = "MODS";
-            bindings = <
-&none  &none     &none     &none      &none      &none                           &none                &none  &none      &none      &none     &none     &none
-&none  &sk LGUI  &sk LALT  &sk LCTRL  &sk LSHFT  &none            &none  &none  &none  &none  &sk RSHFT  &sk RCTRL  &sk RALT  &sk RGUI  &none
-&none  &none     &none     &none      &none      &none   &none              &none              &none  &none      &none      &none     &none     &none
-                           &none      &trans     &none                                         &none  &trans     &none
             >;
 
             sensor-bindings = <&scroll_encoder>;
