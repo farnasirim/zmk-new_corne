@@ -72,17 +72,17 @@
             key-positions = <1 15 29>;
         };
 
-        // Vim Escape: N + E simultaneously (right home row, index + middle in Colemak-DH)
+        // Vim Escape: N + E + I simultaneously (right home row, 3 keys to avoid accidental triggers)
         vim_esc {
             bindings = <&kp ESC>;
-            key-positions = <23 24>;
+            key-positions = <23 24 25>;
             timeout-ms = <30>;
         };
 
-        // Backspace: E + I simultaneously (right home row, middle + ring in Colemak-DH)
+        // Backspace: E + I + O simultaneously (right home row, 3 keys to avoid accidental triggers)
         combo_bspc {
             bindings = <&kp BSPC>;
-            key-positions = <24 25>;
+            key-positions = <24 25 26>;
             timeout-ms = <30>;
         };
 
