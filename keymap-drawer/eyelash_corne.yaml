@@ -199,9 +199,9 @@ layers:
 combos:
 - p: [1, 15, 29]
   k: '&soft_off'
-- p: [23, 24]
+- p: [23, 24, 25]
   k: $$mdi:keyboard-esc$$
-- p: [24, 25]
+- p: [24, 25, 26]
   k: {t: '$$mdi:backspace$$', type: backspace}
 - p: [0, 1]
   k: {t: '`', s: '~'}
