@@ -76,21 +76,30 @@
         vim_esc {
             bindings = <&kp ESC>;
             key-positions = <23 24 25>;
-            timeout-ms = <30>;
+            timeout-ms = <50>;
         };
 
         // Backspace: E + I + O simultaneously (right home row, 3 keys to avoid accidental triggers)
         combo_bspc {
             bindings = <&kp BSPC>;
             key-positions = <24 25 26>;
-            timeout-ms = <30>;
+            timeout-ms = <50>;
         };
 
         // Backtick: Tab + Q simultaneously (top-left corner of left half)
         combo_grave {
             bindings = <&kp GRAVE>;
             key-positions = <0 1>;
-            timeout-ms = <30>;
+            timeout-ms = <50>;
+        };
+
+        // OS swap toggle: all four corners simultaneously
+        // Tab + Bspc + LSHFT + td_shift (positions 0 + 12 + 28 + 41)
+        // Toggles Layer 4 (OS-SWAP), which swaps Alt and Cmd on the left thumbs
+        os_swap_toggle {
+            bindings = <&tog 4>;
+            key-positions = <0 12 28 41>;
+            timeout-ms = <80>;
         };
     };
 
@@ -161,6 +170,24 @@
 &trans          &tmux_prefix    &mkp LCLK  &mkp MCLK    &mkp RCLK  &mkp MB4                &mmv MOVE_LEFT  &mkp LCLK       &mmv MOVE_RIGHT  &bootloader  &mkp LCLK  &mkp MCLK    &mkp RCLK   &kp PRINTSCREEN  &kp F12
 &trans          &sys_reset      &trans     &bootloader  &trans     &mkp MB5  &kp C_MUTE                    &mmv MOVE_DOWN                   &trans       &trans     &bootloader  &sys_reset  &kp SCROLLLOCK   &kp PAUSE_BREAK
                                            &trans       &trans     &trans                                                                   &trans       &trans     &trans
+            >;
+
+            sensor-bindings = <&scroll_encoder>;
+        };
+
+        // ==========================================
+        // LAYER 4: OS-SWAP (toggle via 4-corner combo)
+        // ==========================================
+        // Swaps Alt (outer) <-> Cmd/Super (middle) on the left thumbs.
+        // Activated/deactivated by pressing Tab + Bspc + LSHFT + td_shift together.
+        // State persists across sleep, resets on full power cycle.
+        os_swap {
+            display-name = "OS-SWAP";
+            bindings = <
+&trans  &trans  &trans  &trans     &trans     &trans                              &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans     &trans     &trans                  &trans      &trans   &trans   &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans     &trans     &trans      &trans                  &trans            &trans  &trans  &trans  &trans  &trans  &trans
+                        &kp LGUI   &kp LALT   &trans                                                       &trans  &trans  &trans
             >;
 
             sensor-bindings = <&scroll_encoder>;
